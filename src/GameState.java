@@ -10,6 +10,7 @@ public class GameState {
     private LinkedList<ConsumableCard> consumables;
     private LinkedList<Voucher> vouchers;
     private LinkedList<PlayingCard> deckCards;
+    private int stake;
     private int jokerSpace;
     private int consumableSpace;
     private int bal;
@@ -19,12 +20,24 @@ public class GameState {
     private int round;
     private Voucher shopVoucher; // initialize this
 
+    // --- STAKE GUIDE --- // TODO implement stakes
+    // 1 - White - Base
+    // 2 - Red - Small blind gives no reward money
+    // 3 - Green - Required score scales faster for each ante
+    // 4 - Black - Jokers may be eternal
+    // 5 - Blue - -1 Discard
+    // 6 - Purple - Required score scales faster for each ante
+    // 7 - Orange - Jokers may be perishable
+    // 8 - Gold - Jokers can be rental
+    // -------------------
 
-    public GameState(int aBal, int aBaseHands, int aBaseDiscards, int aJokerSpace, int aConsumableSpace) {
+
+    public GameState(int aBal, int aBaseHands, int aBaseDiscards, int aJokerSpace, int aConsumableSpace, int aStake) {
         jokers = new LinkedList<JokerCard>();
         consumables = new LinkedList<ConsumableCard>();
         vouchers = new LinkedList<Voucher>();
         deckCards = new LinkedList<PlayingCard>();
+        stake = aStake;
         jokerSpace = aJokerSpace;
         consumableSpace = aConsumableSpace;
         bal = aBal;
@@ -158,5 +171,9 @@ public class GameState {
 
     public void setConsumableSpace(int consumableSpace) {
         this.consumableSpace = consumableSpace;
+    }
+
+    public int getStake() {
+        return stake;
     }
 }
