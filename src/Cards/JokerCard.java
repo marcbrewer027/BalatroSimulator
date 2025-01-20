@@ -3,6 +3,14 @@ package Cards;
 public class JokerCard extends Card
 {
 
+    public enum TriggerType {Played, Scored, Held, Indep, Discard, Perkeo}
+    //------------------------
+    // Trigger types outline, occurs in order:
+    // Played - triggered on hand played
+    // Discard - Triggered on discard
+    // Scored - triggered on card scored
+    // Held - triggered while card held in hand
+    // Perkeo - end of shop (perkeo)
     //------------------------
     // MEMBER VARIABLES
     //------------------------
@@ -11,17 +19,19 @@ public class JokerCard extends Card
     private boolean isEternal;
     private boolean isRental;
     private boolean isPerishable;
+    private TriggerType[] triggerTypes;
 
     //------------------------
     // CONSTRUCTOR
     //------------------------
 
-    public JokerCard(Edition aEdition, boolean aIsEternal, boolean aIsRental, boolean aIsPerishable)
+    public JokerCard(Edition aEdition, boolean aIsEternal, boolean aIsRental, boolean aIsPerishable, TriggerType[] aTriggerTypes)
     {
         super(aEdition);
         isEternal = aIsEternal;
         isRental = aIsRental;
         isPerishable = aIsPerishable;
+        triggerTypes = aTriggerTypes;
     }
 
     //------------------------
@@ -52,6 +62,14 @@ public class JokerCard extends Card
         return wasSet;
     }
 
+    public boolean setTriggerTypes(TriggerType[] aTriggerTypes)
+    {
+        boolean wasSet = false;
+        triggerTypes = aTriggerTypes;
+        wasSet = true;
+        return wasSet;
+    }
+
     public boolean getIsEternal()
     {
         return isEternal;
@@ -65,6 +83,10 @@ public class JokerCard extends Card
     public boolean getIsPerishable()
     {
         return isPerishable;
+    }
+
+    public TriggerType[] getTriggerTypes() {
+        return triggerTypes;
     }
 
     public void delete()
