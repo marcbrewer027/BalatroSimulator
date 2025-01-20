@@ -1,6 +1,6 @@
 package Cards;
 
-abstract class ConsumableCard extends Card
+public abstract class ConsumableCard extends Card
 {
 
     //------------------------

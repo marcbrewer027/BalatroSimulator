@@ -1,10 +1,12 @@
 import java.util.LinkedList;
 
+import Cards.ConsumableCard;
 import Cards.JokerCard;
 
 public class GameState {
 
     private LinkedList<JokerCard> jokers;
+    private LinkedList<ConsumableCard> consumables;
     private Voucher[] vouchers = {};
     private int bal;
     private int baseHands;
