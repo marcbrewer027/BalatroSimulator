@@ -1,5 +1,13 @@
+/**
+ * Utility class for various game functions.
+ */
 public class Utils {
 
+    /**
+     * Static method for creating Ante.
+     * @param state GameState object to create ante for.
+     * @return Ante object newly created.
+     */
     public static Ante createAnte(GameState state) {
 
         int ante = state.getAnte();

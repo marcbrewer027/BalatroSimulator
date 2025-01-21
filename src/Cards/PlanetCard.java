@@ -1,5 +1,8 @@
 package Cards;
 
+/**
+ * Class representing planet cards, unimplemented as of Jan 20, 2025.
+ */
 public class PlanetCard extends ConsumableCard
 {
 

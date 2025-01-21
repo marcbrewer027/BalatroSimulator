@@ -1,5 +1,8 @@
 package Cards;
 
+/**
+ * Class representing Spectral Cards, unimplemented as of Jan 20, 2025
+ */
 public class SpectralCard extends ConsumableCard
 {
 

@@ -1,5 +1,8 @@
 package Cards;
 
+/**
+ * Class representing Tarot Cards, unimplemented as of Jan 20, 2025.
+ */
 public class TarotCard extends ConsumableCard
 {
 

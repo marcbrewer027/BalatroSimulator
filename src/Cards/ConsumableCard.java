@@ -1,5 +1,8 @@
 package Cards;
 
+/**
+ * Class representing consumable cards. Inherited by different classes of consumables.
+ */
 public abstract class ConsumableCard extends Card
 {
 
@@ -20,12 +23,21 @@ public abstract class ConsumableCard extends Card
     // CONSTRUCTOR
     //------------------------
 
+    /**
+     * Constructor for consumable cards. includes isNegative specifically for Perkeo.
+     * @param aEdition
+     * @param aIsNegative
+     */
     public ConsumableCard(Edition aEdition, boolean aIsNegative)
     {
         super(aEdition);
         isNegative = aIsNegative;
     }
 
+    /**
+     * Method to use consumable card.
+     * @return Boolean if successful.
+     */
     public abstract boolean useCard();
 
 
@@ -33,6 +45,11 @@ public abstract class ConsumableCard extends Card
     // INTERFACE
     //------------------------
 
+    /**
+     * Setter for isNegative.
+     * @param aIsNegative
+     * @return boolean if successful.
+     */
     public boolean setIsNegative(boolean aIsNegative)
     {
         boolean wasSet = false;
@@ -41,6 +58,10 @@ public abstract class ConsumableCard extends Card
         return wasSet;
     }
 
+    /**
+     * Getter for isNegative.
+     * @return boolean specifying negative
+     */
     public boolean getIsNegative()
     {
         return isNegative;

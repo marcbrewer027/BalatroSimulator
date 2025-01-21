@@ -1,16 +1,23 @@
 package Cards;
 
+/**
+ * Class representing Joker cards.
+ */
 public class JokerCard extends Card
 {
-
+    /**
+     * Enum specifying joker trigger type. Joker may have more than one.</br>
+     * </br>
+     * Trigger types outline, occurs in order: </br>
+     * </br>
+     * Played - triggered on hand played. </br>
+     * Discard - Triggered on discard. </br>
+     * Scored - triggered on card scored. </br>
+     * Held - triggered while card held in hand. </br>
+     * Perkeo - end of shop (Perkeo).
+     */
     public enum TriggerType {Played, Scored, Held, Indep, Discard, Perkeo}
-    //------------------------
-    // Trigger types outline, occurs in order:
-    // Played - triggered on hand played
-    // Discard - Triggered on discard
-    // Scored - triggered on card scored
-    // Held - triggered while card held in hand
-    // Perkeo - end of shop (perkeo)
+
     //------------------------
     // MEMBER VARIABLES
     //------------------------
@@ -25,6 +32,14 @@ public class JokerCard extends Card
     // CONSTRUCTOR
     //------------------------
 
+    /**
+     * Constructor for Joker cards.
+     * @param aEdition
+     * @param aIsEternal
+     * @param aIsRental
+     * @param aIsPerishable
+     * @param aTriggerTypes
+     */
     public JokerCard(Edition aEdition, boolean aIsEternal, boolean aIsRental, boolean aIsPerishable, TriggerType[] aTriggerTypes)
     {
         super(aEdition);
@@ -38,6 +53,11 @@ public class JokerCard extends Card
     // INTERFACE
     //------------------------
 
+    /**
+     * Setter for isEternal.
+     * @param aIsEternal
+     * @return boolean. True if successful.
+     */
     public boolean setIsEternal(boolean aIsEternal)
     {
         boolean wasSet = false;
@@ -46,6 +66,11 @@ public class JokerCard extends Card
         return wasSet;
     }
 
+    /**
+     * Setter for isRental.
+     * @param aIsRental
+     * @return boolean. True if successful.
+     */
     public boolean setIsRental(boolean aIsRental)
     {
         boolean wasSet = false;
@@ -54,6 +79,11 @@ public class JokerCard extends Card
         return wasSet;
     }
 
+    /**
+     * Setter for isPerishable.
+     * @param aIsPerishable
+     * @return boolean. True if successful.
+     */
     public boolean setIsPerishable(boolean aIsPerishable)
     {
         boolean wasSet = false;
@@ -62,6 +92,11 @@ public class JokerCard extends Card
         return wasSet;
     }
 
+    /**
+     * Setter for triggerTypes.
+     * @param aTriggerTypes
+     * @return boolean. True if successful.
+     */
     public boolean setTriggerTypes(TriggerType[] aTriggerTypes)
     {
         boolean wasSet = false;
@@ -70,21 +105,37 @@ public class JokerCard extends Card
         return wasSet;
     }
 
+    /**
+     * Getter for isEternal.
+     * @return boolean, isEternal.
+     */
     public boolean getIsEternal()
     {
         return isEternal;
     }
 
+    /**
+     * Getter for isRental.
+     * @return boolean, isRental.
+     */
     public boolean getIsRental()
     {
         return isRental;
     }
 
+    /**
+     * Getter for isPerishable.
+     * @return boolean, isPerishable.
+     */
     public boolean getIsPerishable()
     {
         return isPerishable;
     }
 
+    /**
+     * Getter for TriggerType.
+     * @return TriggerType[]
+     */
     public TriggerType[] getTriggerTypes() {
         return triggerTypes;
     }

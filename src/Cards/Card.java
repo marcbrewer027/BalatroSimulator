@@ -1,5 +1,8 @@
 package Cards;
 
+        /**
+         * Card object, keeps track of editions. inherited by specific card types.
+         */
 public class Card
 {
 
@@ -7,6 +10,14 @@ public class Card
     // ENUMERATIONS
     //------------------------
 
+    /**
+     * Enumerator specifying card edition, including:</br>
+     * </br>
+     * Poly,</br>
+     * Holo,</br>
+     * Foil,</br>
+     * Neg
+     */
     public enum Edition { Poly, Holo, Foil, Neg }
 
     //------------------------
@@ -20,6 +31,10 @@ public class Card
     // CONSTRUCTOR
     //------------------------
 
+    /**
+     * Constructor for Card object. Probably won't have to use this in base game.
+     * @param aEdition
+     */
     public Card(Edition aEdition)
     {
         edition = aEdition;
@@ -29,6 +44,11 @@ public class Card
     // INTERFACE
     //------------------------
 
+    /**
+     * Setter for edition
+     * @param aEdition
+     * @return boolean stating successful change.
+     */
     public boolean setEdition(Edition aEdition)
     {
         boolean wasSet = false;
@@ -37,6 +57,10 @@ public class Card
         return wasSet;
     }
 
+    /**
+     * Getter for edition
+     * @return edition of object
+     */
     public Edition getEdition()
     {
         return edition;

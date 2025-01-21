@@ -4,6 +4,9 @@ import Cards.ConsumableCard;
 import Cards.JokerCard;
 import Cards.PlayingCard;
 
+/**
+ * Class representing a GameState object, used to keep track of the games state.
+ */
 public class GameState {
 
     private LinkedList<JokerCard> jokers;
@@ -31,8 +34,17 @@ public class GameState {
     // 8 - Gold - Jokers can be rental
     // -------------------
 
-
+    /**
+     * Constructor for GameState.
+     * @param aBal Starting money balance.
+     * @param aBaseHands Starting base hands per round.
+     * @param aBaseDiscards Starting base discards per round.
+     * @param aJokerSpace Starting joker slots.
+     * @param aConsumableSpace Starting consumable slots.
+     * @param aStake Stake
+     */
     public GameState(int aBal, int aBaseHands, int aBaseDiscards, int aJokerSpace, int aConsumableSpace, int aStake) {
+        // TODO add decks, and their functionality.
         jokers = new LinkedList<JokerCard>();
         consumables = new LinkedList<ConsumableCard>();
         vouchers = new LinkedList<Voucher>();
@@ -47,11 +59,21 @@ public class GameState {
         round = 0;
     }
 
+    /**
+     * Getter for jokers in joker slots.
+     * @return LinkedList containing JokerCard objects (or nothing if empty).
+     */
     public LinkedList<JokerCard> getJokers() {
         return jokers;
     }
 
+    /**
+     * Method for adding JokerCard object to joker slot. Ensures player has enough open slots first.
+     * @param joker JokerCard wished to add.
+     * @return boolean. True if successful, false otherwise (no open slots).
+     */
     public boolean addJoker(JokerCard joker) {
+        // TODO ensure negative jokers can be added.
         if (jokerSpace-1 < jokers.size()) {
             jokers.add(joker);
             return true;
@@ -59,15 +81,32 @@ public class GameState {
         return false;
     }
 
-    public void removeJoker(int ind) {
-        jokers.remove(ind);
+    /**
+     * Method for removing Joker at set index.
+     * @param ind Index of joker to be removed
+     * @return JokerCard
+     */
+    public JokerCard removeJoker(int ind) {
+        // TODO error handling for index out of range
+        return jokers.remove(ind);
     }
 
+    /**
+     * Method for removing specific joker object.
+     * @param joker JokerCard object to be removed.
+     */
     public void removeJoker(JokerCard joker) {
+        // TODO error handling for object not found.
         jokers.remove(joker); // keep an eye on using exact same object.
     }
 
+    /**
+     * Method for moving joker within LinkedList object.
+     * @param oInd Index of joker to be moved.
+     * @param delta Delta of where it will be moved to (can be negative).
+     */
     public void moveJoker(int oInd, int delta) {
+        // TODO add error handling for index out of range
         JokerCard joker = jokers.get(oInd);
         removeJoker(joker);
         jokers.add(oInd+delta, joker); // may cause problems with the removal of joker first, keep an eye on this
@@ -121,7 +160,13 @@ public class GameState {
         return consumables;
     }
 
+    /**
+     * Method for adding consumable to consumable list. Ensures the player has enough space.
+     * @param consumable ConsumableCard to be added.
+     * @return boolean. True if successful, false otherwise.
+     */
     public boolean addConsumable(ConsumableCard consumable) {
+        // TODO make sure Perkeo works correctly
         if (consumableSpace-1 < consumables.size()) {
             consumables.add(consumable);
             return true;
@@ -129,11 +174,21 @@ public class GameState {
         return false;
     }
 
+    /**
+     * Method for removing consumable from consumable list.
+     * @param consumable ConsumableCard to be removed.
+     */
     public void removeConsumable(ConsumableCard consumable) {
+        // TODO add error handling for object not found.
         consumables.remove(consumable);
     }
 
+    /**
+     * Method for removing consumable from consumable list.
+     * @param ind index of consumable
+     */
     public void removeConsumable(int ind) {
+        // TODO add error handling for index of range
         consumables.remove(ind);
     }
 
