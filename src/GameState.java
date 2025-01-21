@@ -9,11 +9,11 @@ import Cards.PlayingCard;
  */
 public class GameState {
 
-    private LinkedList<JokerCard> jokers;
-    private LinkedList<ConsumableCard> consumables;
-    private LinkedList<Voucher> vouchers;
-    private LinkedList<PlayingCard> deckCards;
-    private int stake;
+    private final LinkedList<JokerCard> jokers;
+    private final LinkedList<ConsumableCard> consumables;
+    private final LinkedList<Voucher> vouchers;
+    private final LinkedList<PlayingCard> deckCards;
+    private final int stake;
     private int jokerSpace;
     private int consumableSpace;
     private int bal;
@@ -48,7 +48,7 @@ public class GameState {
         jokers = new LinkedList<JokerCard>();
         consumables = new LinkedList<ConsumableCard>();
         vouchers = new LinkedList<Voucher>();
-        deckCards = new LinkedList<PlayingCard>();
+        deckCards = new LinkedList<PlayingCard>(); // TODO add initialization for default deck
         stake = aStake;
         jokerSpace = aJokerSpace;
         consumableSpace = aConsumableSpace;
@@ -56,7 +56,7 @@ public class GameState {
         baseHands = aBaseHands;
         baseDiscards = aBaseDiscards;
         ante = 1;
-        round = 0;
+        round = 1;
     }
 
     /**
@@ -319,4 +319,15 @@ public class GameState {
     public int getStake() {
         return stake;
     }
+
+    public String toString(){
+        return String.format("""
+                It is currently ante %s, round %s. \r
+                You currently start each round with %s hands and %s discards. \r
+                You have $%s, %s Jokers, and %s available joker slots. \r
+                You have %s available consumable slots and %s consumables. \r
+                you have %s cards in your deck and %s vouchers.
+                """,ante,round,baseHands,baseDiscards,bal,jokers.size(),jokerSpace,consumableSpace,consumables.size(),getDeckSize(),vouchers.size());
+    }
+
 }
