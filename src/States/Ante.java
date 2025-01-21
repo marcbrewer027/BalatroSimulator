@@ -1,3 +1,5 @@
+package States;
+
 /**
  * Class representing antes.
  */
@@ -7,15 +9,18 @@ public class Ante {
 
     private final double base;
     private int stage;
+    private final GameState state;
     private final int bossCode; // may change this to enum or some other secret third thing
 
     /**
-     * Constructor for Ante object.
+     * Constructor for States.Ante object.
      * @param aBase Base chip value
+     * @param aState Game state for the ante to keep track of
      */
-    public Ante(int aBase) {
+    public Ante(int aBase, GameState aState) {
         base = aBase;
         stage = 0;
+        state = aState;
         bossCode = -1; //TODO figure out how this works
     }
 
@@ -43,6 +48,14 @@ public class Ante {
             default -> -1;
         };
     }
+
+    /**
+     * Method for starting the next blind in the stage.
+     * @return Blind. Based on stage.
+     */
+    public Blind startBlind() {
+        return new Blind(state, getScore()); // TODO increment stage
+    };
 
     public String toString(){
         return String.format("""

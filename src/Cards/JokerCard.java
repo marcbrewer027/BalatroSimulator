@@ -1,10 +1,16 @@
 package Cards;
 
+import java.util.function.Consumer;
+
 /**
  * Class representing Joker cards.
  */
 public class JokerCard extends Card
 {
+    public Consumer<Object> getFunction() {
+        return function;
+    }
+
     /**
      * Enum specifying joker trigger type. Joker may have more than one.</br>
      * </br>
@@ -14,6 +20,7 @@ public class JokerCard extends Card
      * Discard - Triggered on discard. </br>
      * Scored - triggered on card scored. </br>
      * Held - triggered while card held in hand. </br>
+     * Indep - triggered independently. </br>
      * Perkeo - end of shop (Perkeo).
      */
     public enum TriggerType {Played, Scored, Held, Indep, Discard, Perkeo}
@@ -27,6 +34,7 @@ public class JokerCard extends Card
     private boolean isRental;
     private boolean isPerishable;
     private TriggerType[] triggerTypes;
+    private final Consumer<Object> function; // Set type to Object for now, may change later
 
     //------------------------
     // CONSTRUCTOR
@@ -39,8 +47,9 @@ public class JokerCard extends Card
      * @param aIsRental  Boolean value for rental status
      * @param aIsPerishable Boolean value for perishable status
      * @param aTriggerTypes TriggerType enum array for trigger types
+     * @param aFunction Consumer type for jokers function, unfinished and unused as of Jan 21st 2024.
      */
-    public JokerCard(Edition aEdition, boolean aIsEternal, boolean aIsRental, boolean aIsPerishable, TriggerType[] aTriggerTypes)
+    public JokerCard(Edition aEdition, boolean aIsEternal, boolean aIsRental, boolean aIsPerishable, TriggerType[] aTriggerTypes, Consumer<Object> aFunction)
     {
         // TODO add error handling for incompatible status (i.e., perishable + eternal)
         super(aEdition);
@@ -48,6 +57,7 @@ public class JokerCard extends Card
         isRental = aIsRental;
         isPerishable = aIsPerishable;
         triggerTypes = aTriggerTypes;
+        function = aFunction;
     }
 
     //------------------------

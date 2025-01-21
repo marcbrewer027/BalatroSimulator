@@ -192,11 +192,52 @@ public class PlayingCard extends Card
     }
 
     /**
+     * Returns rank based on rank int value.
+     * @return String object
+     */
+    public String getCharRank() {
+        return switch (rank) {
+            case 11 -> "J";
+            case 12 -> "Q";
+            case 13 -> "K";
+            case 14 -> "A";
+            default -> ((Integer) rank).toString();
+        };
+    }
+
+    /**
      * Getter for suit.
      * @return Suit
      */
     public Suit getSuit() {
         return suit;
+    }
+
+    /**
+     * Returns Unicode character for suit of a card.
+     * @return char
+     */
+    public char getCharSuit() {
+        return switch (suit) {
+            case Spade -> '♠';
+            case Heart -> '♥';
+            case Club -> '♣';
+            case Diamond -> '♦';
+            default -> '⌀';
+        };
+    }
+
+    /**
+     * Returns chip value of card based on rank. </br></br>
+     * Does not take Hiker into consideration as of Jan 21st, 2025.
+     * @return int
+     */
+    public int getChipValue() {
+        return switch (rank) {
+            case 11, 12, 13 -> 10;
+            case 14 -> 11;
+            default -> rank;
+        };
     }
 
     public void delete()
@@ -207,6 +248,6 @@ public class PlayingCard extends Card
 
     public String toString()
     {
-        return super.toString();
+        return String.format("[%s%s, worth %s chips.]",getCharRank(),getCharSuit(),getChipValue()); // TODO add specifying for enhancements, seals, editions
     }
 }

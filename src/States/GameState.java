@@ -1,13 +1,20 @@
+package States;
+
 import java.util.LinkedList;
+import java.util.Set;
 
 import Cards.ConsumableCard;
 import Cards.JokerCard;
 import Cards.PlayingCard;
+import Misc.Utils;
+import Misc.Voucher;
 
 /**
- * Class representing a GameState object, used to keep track of the games state.
+ * Class representing a States.GameState object, used to keep track of the games state.
  */
 public class GameState {
+
+    // --- states related to the player ---
 
     private final LinkedList<JokerCard> jokers;
     private final LinkedList<ConsumableCard> consumables;
@@ -16,6 +23,7 @@ public class GameState {
     private final int stake;
     private int jokerSpace;
     private int consumableSpace;
+    private int handSize;
     private int bal;
     private int baseHands;
     private int baseDiscards;
@@ -34,29 +42,39 @@ public class GameState {
     // 8 - Gold - Jokers can be rental
     // -------------------
 
+    // --- states unrelated to the player ---
+
+    //private Set<JokerCard> jokerPool;
+
     /**
-     * Constructor for GameState.
+     * Constructor for States.GameState.
      * @param aBal Starting money balance.
      * @param aBaseHands Starting base hands per round.
      * @param aBaseDiscards Starting base discards per round.
      * @param aJokerSpace Starting joker slots.
      * @param aConsumableSpace Starting consumable slots.
+     * @param aHandSize Starting hand size.
      * @param aStake Stake
      */
-    public GameState(int aBal, int aBaseHands, int aBaseDiscards, int aJokerSpace, int aConsumableSpace, int aStake) {
+    public GameState(int aBal, int aBaseHands, int aBaseDiscards, int aJokerSpace, int aConsumableSpace, int aHandSize, int aStake) {
+
         // TODO add decks, and their functionality.
         jokers = new LinkedList<JokerCard>();
         consumables = new LinkedList<ConsumableCard>();
         vouchers = new LinkedList<Voucher>();
-        deckCards = new LinkedList<PlayingCard>(); // TODO add initialization for default deck
+        deckCards = Utils.basicDeck(); // TODO add initialization for default deck
         stake = aStake;
         jokerSpace = aJokerSpace;
         consumableSpace = aConsumableSpace;
+        handSize = aHandSize;
         bal = aBal;
         baseHands = aBaseHands;
         baseDiscards = aBaseDiscards;
         ante = 1;
         round = 1;
+
+        //jokerPool = Utils.initializeJokers();
+
     }
 
     /**
@@ -250,7 +268,7 @@ public class GameState {
 
     /**
      * Adds a voucher to owned vouchers.
-     * @param voucher Voucher to be added.
+     * @param voucher Misc.Voucher to be added.
      */
     public void addVoucher(Voucher voucher) {
         vouchers.add(voucher);
@@ -330,4 +348,19 @@ public class GameState {
                 """,ante,round,baseHands,baseDiscards,bal,jokers.size(),jokerSpace,consumableSpace,consumables.size(),getDeckSize(),vouchers.size());
     }
 
+    /**
+     * Getter for handSize.
+     * @return int
+     */
+    public int getHandSize() {
+        return handSize;
+    }
+
+    /**
+     * Setter for handSize.
+     * @param handSize Integer to set handSize to.
+     */
+    public void setHandSize(int handSize) {
+        this.handSize = handSize;
+    }
 }
