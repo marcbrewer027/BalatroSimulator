@@ -46,11 +46,11 @@ public class Ante {
 
     public String toString(){
         return String.format("""
-                You are currently at stage 1. \n
+                You are currently at stage %s. \n
                 Stage 1 - Small Blind - Score: %s - can be skipped for %s. \r
                 Stage 2 - Big Blind - Score %s - can be skipped for %s. \r
                 Stage 3 - Boss Blind - Score %s - %s - %s.
-                """, ((int) Math.floor(base)),"[tag placeholder]",((int) Math.floor(base * 1.5)),"[tag placeholder]",((int) Math.floor(base * 2)),"[boss name]","[boss description]"); // NOTE: when using Math.floor, we cannot use it for scientific notation as it is a floating point. TODO figure out scientific notation
+                """, stage+1, ((int) Math.floor(base)),"[tag placeholder]",((int) Math.floor(base * 1.5)),"[tag placeholder]",((int) Math.floor(base * 2)),"[boss name]","[boss description]"); // NOTE: when using Math.floor, we cannot use it for scientific notation as it is a floating point. TODO figure out scientific notation
     }
 
 }
