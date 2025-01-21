@@ -25,8 +25,8 @@ public abstract class ConsumableCard extends Card
 
     /**
      * Constructor for consumable cards. includes isNegative specifically for Perkeo.
-     * @param aEdition
-     * @param aIsNegative
+     * @param aEdition Edition enum
+     * @param aIsNegative Boolean representing negativity
      */
     public ConsumableCard(Edition aEdition, boolean aIsNegative)
     {
@@ -47,7 +47,7 @@ public abstract class ConsumableCard extends Card
 
     /**
      * Setter for isNegative.
-     * @param aIsNegative
+     * @param aIsNegative Boolean representing negativity
      * @return boolean if successful.
      */
     public boolean setIsNegative(boolean aIsNegative)

@@ -112,50 +112,98 @@ public class GameState {
         jokers.add(oInd+delta, joker); // may cause problems with the removal of joker first, keep an eye on this
     }
 
+    /**
+     * Method for getting the head of the jokers LinkedList.
+     * @return JokerCard, head of the object.
+     */
     public JokerCard getJokerHead() {
         return jokers.getFirst();
     }
 
+    /**
+     * Getter for balance.
+     * @return int
+     */
     public int getBal() {
         return bal;
     }
 
+    /**
+     * Setter for balance.
+     * @param bal integer value
+     */
     public void setBal(int bal) {
         this.bal = bal;
     }
 
+    /**
+     * Getter for baseHands.
+     * @return int
+     */
     public int getBaseHands() {
         return baseHands;
     }
 
+    /**
+     * Setter for baseHands.
+     * @param baseHands integer value
+     */
     public void setBaseHands(int baseHands) {
         this.baseHands = baseHands;
     }
 
+    /**
+     * Getter for baseDiscards.
+     * @return int
+     */
     public int getBaseDiscards() {
         return baseDiscards;
     }
 
+    /**
+     * Setter for BaseDiscards.
+     * @param baseDiscards integer value
+     */
     public void setBaseDiscards(int baseDiscards) {
         this.baseDiscards = baseDiscards;
     }
 
+    /**
+     * Getter for ante.
+     * @return int
+     */
     public int getAnte() {
         return ante;
     }
 
+    /**
+     * Setter for ante.
+     * @param ante integer value
+     */
     public void setAnte(int ante) {
         this.ante = ante;
     }
 
+    /**
+     * Getter for round.
+     * @return int
+     */
     public int getRound() {
         return round;
     }
 
+    /**
+     * Setter of round.
+     * @param round integer value
+     */
     public void setRound(int round) {
         this.round = round;
     }
 
+    /**
+     * Getter for consumables.
+     * @return LinkedList
+     */
     public LinkedList<ConsumableCard> getConsumables() {
         return consumables;
     }
@@ -192,42 +240,82 @@ public class GameState {
         consumables.remove(ind);
     }
 
+    /**
+     * Getter for vouchers.
+     * @return LinkedList
+     */
     public LinkedList<Voucher> getVouchers() {
         return vouchers;
     }
 
+    /**
+     * Adds a voucher to owned vouchers.
+     * @param voucher Voucher to be added.
+     */
     public void addVoucher(Voucher voucher) {
         vouchers.add(voucher);
     }
 
+    /**
+     * Getter for deckCards.
+     * @return LinkedList
+     */
     public LinkedList<PlayingCard> getDeckCards() {
         return deckCards;
     }
 
+    /**
+     * Adds PlayingCard object to deckCards.
+     * @param card PlayingCard to be added
+     */
     public void addDeckCard(PlayingCard card) {
         deckCards.add(card);
     }
 
+    /**
+     * Getter for size of deckCards.
+     * @return int
+     */
     public int getDeckSize() {
         return deckCards.size();
     }
 
+    /**
+     * Getter for jokerSpace.
+     * @return int
+     */
     public int getJokerSpace() {
         return jokerSpace;
     }
 
+    /**
+     * Setter for jokerSpace.
+     * @param jokerSpace Integer to set jokerSpace to.
+     */
     public void setJokerSpace(int jokerSpace) {
         this.jokerSpace = jokerSpace;
     }
 
+    /**
+     * Getter for consumableSpace.
+     * @return int
+     */
     public int getConsumableSpace() {
         return consumableSpace;
     }
 
+    /**
+     * Setter for consumableSpace.
+     * @param consumableSpace Integer to set consumableSpace to.
+     */
     public void setConsumableSpace(int consumableSpace) {
         this.consumableSpace = consumableSpace;
     }
 
+    /**
+     * Getter for stake.
+     * @return int
+     */
     public int getStake() {
         return stake;
     }

@@ -33,7 +33,7 @@ public class Card
 
     /**
      * Constructor for Card object. Probably won't have to use this in base game.
-     * @param aEdition
+     * @param aEdition Edition enum
      */
     public Card(Edition aEdition)
     {
@@ -46,7 +46,7 @@ public class Card
 
     /**
      * Setter for edition
-     * @param aEdition
+     * @param aEdition Edition enum
      * @return boolean stating successful change.
      */
     public boolean setEdition(Edition aEdition)
@@ -66,7 +66,7 @@ public class Card
         return edition;
     }
 
-    public void delete()
+    public void delete() // TODO implement delete (maybe rename to destroy?)
     {}
 
 

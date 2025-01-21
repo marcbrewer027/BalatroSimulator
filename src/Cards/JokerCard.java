@@ -34,14 +34,15 @@ public class JokerCard extends Card
 
     /**
      * Constructor for Joker cards.
-     * @param aEdition
-     * @param aIsEternal
-     * @param aIsRental
-     * @param aIsPerishable
-     * @param aTriggerTypes
+     * @param aEdition Edition enum
+     * @param aIsEternal Boolean value for eternal status
+     * @param aIsRental  Boolean value for rental status
+     * @param aIsPerishable Boolean value for perishable status
+     * @param aTriggerTypes TriggerType enum array for trigger types
      */
     public JokerCard(Edition aEdition, boolean aIsEternal, boolean aIsRental, boolean aIsPerishable, TriggerType[] aTriggerTypes)
     {
+        // TODO add error handling for incompatible status (i.e., perishable + eternal)
         super(aEdition);
         isEternal = aIsEternal;
         isRental = aIsRental;
@@ -55,7 +56,7 @@ public class JokerCard extends Card
 
     /**
      * Setter for isEternal.
-     * @param aIsEternal
+     * @param aIsEternal Boolean value for eternal status
      * @return boolean. True if successful.
      */
     public boolean setIsEternal(boolean aIsEternal)
@@ -68,7 +69,7 @@ public class JokerCard extends Card
 
     /**
      * Setter for isRental.
-     * @param aIsRental
+     * @param aIsRental Boolean value for rental status
      * @return boolean. True if successful.
      */
     public boolean setIsRental(boolean aIsRental)
@@ -81,7 +82,7 @@ public class JokerCard extends Card
 
     /**
      * Setter for isPerishable.
-     * @param aIsPerishable
+     * @param aIsPerishable Boolean value for perishable status
      * @return boolean. True if successful.
      */
     public boolean setIsPerishable(boolean aIsPerishable)
@@ -94,7 +95,7 @@ public class JokerCard extends Card
 
     /**
      * Setter for triggerTypes.
-     * @param aTriggerTypes
+     * @param aTriggerTypes TriggerType enum array for trigger types
      * @return boolean. True if successful.
      */
     public boolean setTriggerTypes(TriggerType[] aTriggerTypes)

@@ -3,7 +3,7 @@
  */
 public class Ante {
 
-    // TODO add a way of 'closing' or 'deleting antes when they're finished.
+    // TODO add a way of 'closing' or 'deleting' antes when they're finished.
 
     private double base;
     private int stage;

@@ -40,7 +40,7 @@ public class PlayingCard extends Card
      * - Spade </br>
      * - Heart </br>
      * - Club </br>
-     * - Diamonds
+     * - Diamond
      */
     public enum Suit { Spade, Heart, Club, Diamond }
 
@@ -59,15 +59,33 @@ public class PlayingCard extends Card
     //------------------------
 
     /**
-     * Constructor for PlayingCard object.
-     * @param aEdition
-     * @param aSeal
-     * @param aEnhancement
-     * @param aRank
-     * @param aSuit
+     * Constructor for PlayingCard object. </br>
+     * </br>
+     * Rank values are as follows: </br>
+     * </br>
+     * 2 - Two</br>
+     * 3 - Three</br>
+     * 4 - Four</br>
+     * 5 - Five</br>
+     * 6 - Six</br>
+     * 7 - Seven</br>
+     * 8 - Eight</br>
+     * 9 - Nine</br>
+     * 10 - Ten</br>
+     * 11 - Jack</br>
+     * 12 - Queen</br>
+     * 13 - King</br>
+     * 14 - Ace
+     *
+     * @param aEdition Edition enum for edition
+     * @param aSeal Seal enum for seal
+     * @param aEnhancement Enhancement enum for enhancement
+     * @param aRank integer value representing rank
+     * @param aSuit Suit enum for suit
      */
     public PlayingCard(Edition aEdition, Seal aSeal, Enhancement aEnhancement, int aRank, Suit aSuit)
     {
+        // TODO add error handling for invalid rank values (2 <= rank <= 14)
         super(aEdition);
         seal = aSeal;
         enhancement = aEnhancement;
@@ -81,7 +99,7 @@ public class PlayingCard extends Card
 
     /**
      * Setter for seal.
-     * @param aSeal
+     * @param aSeal Seal enum for seal
      * @return boolean. True if successful.
      */
     public boolean setSeal(Seal aSeal)
@@ -94,7 +112,7 @@ public class PlayingCard extends Card
 
     /**
      * Setter for enhancement.
-     * @param aEnhancement
+     * @param aEnhancement Enhancement enum for enhancement
      * @return boolean. True if successful.
      */
     public boolean setEnhancement(Enhancement aEnhancement)
@@ -106,8 +124,25 @@ public class PlayingCard extends Card
     }
 
     /**
-     * Setter for rank.
-     * @param aRank
+     * Setter for rank. </br>
+     * </br>
+     * Rank values are as follows: </br>
+     * </br>
+     * 2 - Two</br>
+     * 3 - Three</br>
+     * 4 - Four</br>
+     * 5 - Five</br>
+     * 6 - Six</br>
+     * 7 - Seven</br>
+     * 8 - Eight</br>
+     * 9 - Nine</br>
+     * 10 - Ten</br>
+     * 11 - Jack</br>
+     * 12 - Queen</br>
+     * 13 - King</br>
+     * 14 - Ace
+     *
+     * @param aRank integer value representing rank
      * @return boolean. True if successful.
      */
     public boolean setRank(int aRank)
@@ -120,7 +155,7 @@ public class PlayingCard extends Card
 
     /**
      * Setter for suit.
-     * @param aSuit
+     * @param aSuit Suit enum for suit
      * @return boolean. True if successful.
      */
     public boolean setSuit(Suit aSuit) {
