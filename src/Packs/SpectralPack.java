@@ -1,28 +1,19 @@
 package Packs;
 
-public class SpectralPack extends ConsumablePack
-{
+import Cards.Card;
+import Cards.SpectralCard;
 
-    //------------------------
-    // MEMBER VARIABLES
-    //------------------------
+import java.util.List;
+import java.util.Random;
 
-    //------------------------
-    // CONSTRUCTOR
-    //------------------------
+public class SpectralPack extends ConsumablePack {
 
-    public SpectralPack(Size aSize)
-    {
+    public SpectralPack(Size aSize) {
         super(aSize);
     }
 
-    //------------------------
-    // INTERFACE
-    //------------------------
-
-    public void delete()
-    {
-        super.delete();
+    @Override
+    public List<Card> pick(Random rng) {
+        return List.of(new SpectralCard(Card.Edition.Poly, false));
     }
-
 }

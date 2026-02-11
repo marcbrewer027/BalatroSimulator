@@ -1,37 +1,31 @@
 package Cards;
 
+import Scoring.HandRank;
+import States.GameState;
+
 /**
- * Class representing planet cards, unimplemented as of Jan 20, 2025.
+ * Planet cards level up a hand rank (increases mult for that hand type).
  */
-public class PlanetCard extends ConsumableCard
-{
+public class PlanetCard extends ConsumableCard {
 
-    //------------------------
-    // MEMBER VARIABLES
-    //------------------------
+    private static final HandRank[] LEVELABLE = {
+            HandRank.PAIR, HandRank.TWO_PAIR, HandRank.THREE_OF_A_KIND,
+            HandRank.STRAIGHT, HandRank.FLUSH, HandRank.FULL_HOUSE,
+            HandRank.FOUR_OF_A_KIND, HandRank.STRAIGHT_FLUSH
+    };
 
-    //------------------------
-    // CONSTRUCTOR
-    //------------------------
-
-    public PlanetCard(Edition aEdition, boolean aIsNegative)
-    {
+    public PlanetCard(Edition aEdition, boolean aIsNegative) {
         super(aEdition, aIsNegative);
     }
 
     @Override
-    public boolean useCard() {
-        //TODO implement this
-        return false;
+    public boolean useCard(GameState state) {
+        HandRank r = LEVELABLE[state.getRng().nextInt(LEVELABLE.length)];
+        state.setHandLevel(r, state.getHandLevel(r) + 1);
+        return true;
     }
 
-    //------------------------
-    // INTERFACE
-    //------------------------
-
-    public void delete()
-    {
+    public void delete() {
         super.delete();
     }
-
 }

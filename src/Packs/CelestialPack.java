@@ -1,28 +1,19 @@
 package Packs;
 
-public class CelestialPack extends ConsumablePack
-{
+import Cards.Card;
+import Cards.PlanetCard;
 
-    //------------------------
-    // MEMBER VARIABLES
-    //------------------------
+import java.util.List;
+import java.util.Random;
 
-    //------------------------
-    // CONSTRUCTOR
-    //------------------------
+public class CelestialPack extends ConsumablePack {
 
-    public CelestialPack(Size aSize)
-    {
+    public CelestialPack(Size aSize) {
         super(aSize);
     }
 
-    //------------------------
-    // INTERFACE
-    //------------------------
-
-    public void delete()
-    {
-        super.delete();
+    @Override
+    public List<Card> pick(Random rng) {
+        return List.of(new PlanetCard(Card.Edition.Poly, false));
     }
-
 }

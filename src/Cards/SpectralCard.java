@@ -1,37 +1,35 @@
 package Cards;
 
+import States.GameState;
+
+import java.util.LinkedList;
+
 /**
- * Class representing Spectral Cards, unimplemented as of Jan 20, 2025
+ * Spectral cards modify the deck (e.g. duplicate a card).
  */
-public class SpectralCard extends ConsumableCard
-{
+public class SpectralCard extends ConsumableCard {
 
-    //------------------------
-    // MEMBER VARIABLES
-    //------------------------
-
-    //------------------------
-    // CONSTRUCTOR
-    //------------------------
-
-    public SpectralCard(Edition aEdition, boolean aIsNegative)
-    {
+    public SpectralCard(Edition aEdition, boolean aIsNegative) {
         super(aEdition, aIsNegative);
     }
 
     @Override
-    public boolean useCard() {
-        //TODO implement this
-        return false;
+    public boolean useCard(GameState state) {
+        LinkedList<PlayingCard> deck = state.getDeckCards();
+        if (deck.isEmpty()) return false;
+        PlayingCard original = deck.get(state.getRng().nextInt(deck.size()));
+        PlayingCard copy = new PlayingCard(
+                original.getEdition(),
+                original.getSeal(),
+                original.getEnhancement(),
+                original.getRank(),
+                original.getSuit()
+        );
+        deck.add(copy);
+        return true;
     }
 
-    //------------------------
-    // INTERFACE
-    //------------------------
-
-    public void delete()
-    {
+    public void delete() {
         super.delete();
     }
-
 }

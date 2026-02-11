@@ -1,30 +1,24 @@
 package Packs;
 
-public class ConsumablePack extends Pack
-{
+import Cards.Card;
 
-    //TODO add logic for pulling a hand when that functionality exists
+import java.util.List;
+import java.util.Random;
 
-    //------------------------
-    // MEMBER VARIABLES
-    //------------------------
+/**
+ * Base for consumable packs (Tarot, Planet, Spectral). Always picks 1 card.
+ */
+public abstract class ConsumablePack extends Pack {
 
-    //------------------------
-    // CONSTRUCTOR
-    //------------------------
-
-    public ConsumablePack(Size aSize)
-    {
+    public ConsumablePack(Size aSize) {
         super(aSize);
     }
 
-    //------------------------
-    // INTERFACE
-    //------------------------
-
-    public void delete()
-    {
-        super.delete();
+    @Override
+    protected int getPickCount() {
+        return 1;
     }
 
+    @Override
+    public abstract List<Card> pick(Random rng);
 }

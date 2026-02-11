@@ -1,37 +1,28 @@
 package Cards;
 
+import States.GameState;
+
+import java.util.LinkedList;
+
 /**
- * Class representing Tarot Cards, unimplemented as of Jan 20, 2025.
+ * Tarot cards modify the deck (e.g. enhance a card).
  */
-public class TarotCard extends ConsumableCard
-{
+public class TarotCard extends ConsumableCard {
 
-    //------------------------
-    // MEMBER VARIABLES
-    //------------------------
-
-    //------------------------
-    // CONSTRUCTOR
-    //------------------------
-
-    public TarotCard(Edition aEdition, boolean aIsNegative)
-    {
+    public TarotCard(Edition aEdition, boolean aIsNegative) {
         super(aEdition, aIsNegative);
     }
 
     @Override
-    public boolean useCard() {
-        //TODO implement this
-        return false;
+    public boolean useCard(GameState state) {
+        LinkedList<PlayingCard> deck = state.getDeckCards();
+        if (deck.isEmpty()) return false;
+        PlayingCard target = deck.get(state.getRng().nextInt(deck.size()));
+        target.setEnhancement(PlayingCard.Enhancement.Mult);
+        return true;
     }
 
-    //------------------------
-    // INTERFACE
-    //------------------------
-
-    public void delete()
-    {
+    public void delete() {
         super.delete();
     }
-
 }

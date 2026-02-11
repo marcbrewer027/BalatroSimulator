@@ -1,5 +1,7 @@
 package Cards;
 
+import States.GameState;
+
 /**
  * Class representing consumable cards. Inherited by different classes of consumables.
  */
@@ -35,10 +37,11 @@ public abstract class ConsumableCard extends Card
     }
 
     /**
-     * Method to use consumable card.
-     * @return Boolean if successful.
+     * Use this consumable card, modifying game state (deck, hand levels, etc.).
+     * @param state current game state
+     * @return true if the use was successful
      */
-    public abstract boolean useCard();
+    public abstract boolean useCard(GameState state);
 
 
     //------------------------

@@ -85,8 +85,10 @@ public class PlayingCard extends Card
      */
     public PlayingCard(Edition aEdition, Seal aSeal, Enhancement aEnhancement, int aRank, Suit aSuit)
     {
-        // TODO add error handling for invalid rank values (2 <= rank <= 14)
         super(aEdition);
+        if (aRank < 2 || aRank > 14) {
+            throw new IllegalArgumentException("Rank must be between 2 and 14, got: " + aRank);
+        }
         seal = aSeal;
         enhancement = aEnhancement;
         rank = aRank;
@@ -248,6 +250,13 @@ public class PlayingCard extends Card
 
     public String toString()
     {
-        return String.format("[%s%s, worth %s chips.]",getCharRank(),getCharSuit(),getChipValue()); // TODO add specifying for enhancements, seals, editions
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("[%s%s, worth %s chips", getCharRank(), getCharSuit(), getChipValue()));
+        if (enhancement != null) sb.append(", ").append(enhancement);
+        if (seal != null) sb.append(", seal=").append(seal);
+        Edition ed = getEdition();
+        if (ed != null) sb.append(", ").append(ed);
+        sb.append("]");
+        return sb.toString();
     }
 }

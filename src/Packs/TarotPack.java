@@ -1,28 +1,19 @@
 package Packs;
 
-public class TarotPack extends ConsumablePack
-{
+import Cards.Card;
+import Cards.TarotCard;
 
-    //------------------------
-    // MEMBER VARIABLES
-    //------------------------
+import java.util.List;
+import java.util.Random;
 
-    //------------------------
-    // CONSTRUCTOR
-    //------------------------
+public class TarotPack extends ConsumablePack {
 
-    public TarotPack(Size aSize)
-    {
+    public TarotPack(Size aSize) {
         super(aSize);
     }
 
-    //------------------------
-    // INTERFACE
-    //------------------------
-
-    public void delete()
-    {
-        super.delete();
+    @Override
+    public List<Card> pick(Random rng) {
+        return List.of(new TarotCard(Card.Edition.Poly, false));
     }
-
 }

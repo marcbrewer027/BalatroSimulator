@@ -51,12 +51,14 @@ public class JokerCard extends Card
      */
     public JokerCard(Edition aEdition, boolean aIsEternal, boolean aIsRental, boolean aIsPerishable, TriggerType[] aTriggerTypes, Consumer<Object> aFunction)
     {
-        // TODO add error handling for incompatible status (i.e., perishable + eternal)
         super(aEdition);
+        if (aIsPerishable && aIsEternal) {
+            throw new IllegalArgumentException("Joker cannot be both perishable and eternal");
+        }
         isEternal = aIsEternal;
         isRental = aIsRental;
         isPerishable = aIsPerishable;
-        triggerTypes = aTriggerTypes;
+        triggerTypes = aTriggerTypes != null ? aTriggerTypes : new TriggerType[0];
         function = aFunction;
     }
 

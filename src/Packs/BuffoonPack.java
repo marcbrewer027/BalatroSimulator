@@ -1,28 +1,29 @@
 package Packs;
 
-public class BuffoonPack extends Pack
-{
+import Cards.Card;
+import Cards.JokerCard;
+import Misc.Utils;
 
-    //------------------------
-    // MEMBER VARIABLES
-    //------------------------
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
-    //------------------------
-    // CONSTRUCTOR
-    //------------------------
+/** Joker pack (same as StandardPack for now). */
+public class BuffoonPack extends Pack {
 
-    public BuffoonPack(Pack.Size aSize)
-    {
+    public BuffoonPack(Size aSize) {
         super(aSize);
     }
 
-    //------------------------
-    // INTERFACE
-    //------------------------
-
-    public void delete()
-    {
-        super.delete();
+    @Override
+    public List<Card> pick(Random rng) {
+        List<JokerCard> pool = Utils.getJokerPoolList();
+        List<Card> result = new ArrayList<>();
+        if (pool.isEmpty()) return result;
+        int count = getPickCount();
+        for (int i = 0; i < count; i++) {
+            result.add(pool.get(rng.nextInt(pool.size())));
+        }
+        return result;
     }
-
 }

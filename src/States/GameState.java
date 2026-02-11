@@ -1,6 +1,9 @@
 package States;
 
+import java.util.EnumMap;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 import Cards.ConsumableCard;
@@ -8,6 +11,7 @@ import Cards.JokerCard;
 import Cards.PlayingCard;
 import Misc.Utils;
 import Misc.Voucher;
+import Scoring.HandRank;
 
 /**
  * Class representing a States.GameState object, used to keep track of the games state.
@@ -29,9 +33,13 @@ public class GameState {
     private int baseDiscards;
     private int ante;
     private int round;
-    private Voucher shopVoucher; // initialize this
+    private Voucher shopVoucher;
+    private final Random rng;
+    private final int initialBaseHands;
+    private final int initialBaseDiscards;
+    private final Map<HandRank, Integer> handLevels;
 
-    // --- STAKE GUIDE --- // TODO implement stakes
+    // --- STAKE GUIDE ---
     // 1 - White - Base
     // 2 - Red - Small blind gives no reward money
     // 3 - Green - Required score scales faster for each ante
@@ -47,7 +55,14 @@ public class GameState {
     //private Set<JokerCard> jokerPool;
 
     /**
-     * Constructor for States.GameState.
+     * Constructor for States.GameState with default random seed.
+     */
+    public GameState(int aBal, int aBaseHands, int aBaseDiscards, int aJokerSpace, int aConsumableSpace, int aHandSize, int aStake) {
+        this(aBal, aBaseHands, aBaseDiscards, aJokerSpace, aConsumableSpace, aHandSize, aStake, null);
+    }
+
+    /**
+     * Constructor for States.GameState with optional seed for reproducible runs.
      * @param aBal Starting money balance.
      * @param aBaseHands Starting base hands per round.
      * @param aBaseDiscards Starting base discards per round.
@@ -55,14 +70,13 @@ public class GameState {
      * @param aConsumableSpace Starting consumable slots.
      * @param aHandSize Starting hand size.
      * @param aStake Stake
+     * @param seed Random seed; if null, uses system-dependent randomness.
      */
-    public GameState(int aBal, int aBaseHands, int aBaseDiscards, int aJokerSpace, int aConsumableSpace, int aHandSize, int aStake) {
-
-        // TODO add decks, and their functionality.
+    public GameState(int aBal, int aBaseHands, int aBaseDiscards, int aJokerSpace, int aConsumableSpace, int aHandSize, int aStake, Long seed) {
         jokers = new LinkedList<JokerCard>();
         consumables = new LinkedList<ConsumableCard>();
         vouchers = new LinkedList<Voucher>();
-        deckCards = Utils.basicDeck(); // TODO add initialization for default deck
+        deckCards = Utils.basicDeck();
         stake = aStake;
         jokerSpace = aJokerSpace;
         consumableSpace = aConsumableSpace;
@@ -72,9 +86,48 @@ public class GameState {
         baseDiscards = aBaseDiscards;
         ante = 1;
         round = 1;
+        rng = seed != null ? new Random(seed) : new Random();
+        initialBaseHands = aBaseHands;
+        // Stake 5 (Blue): -1 Discard
+        initialBaseDiscards = (aStake == 5) ? Math.max(0, aBaseDiscards - 1) : aBaseDiscards;
+        baseDiscards = initialBaseDiscards;
+        handLevels = new EnumMap<>(HandRank.class);
+        for (HandRank r : HandRank.values()) {
+            handLevels.put(r, 1);
+        }
+    }
 
-        //jokerPool = Utils.initializeJokers();
+    /** Hand level for a given hand rank (used in scoring). Default 1. */
+    public int getHandLevel(HandRank rank) {
+        return handLevels.getOrDefault(rank, 1);
+    }
 
+    public void setHandLevel(HandRank rank, int level) {
+        handLevels.put(rank, Math.max(1, level));
+    }
+
+    /**
+     * Reset hands and discards to initial values for the start of a new blind.
+     */
+    public void resetHandsAndDiscards() {
+        baseHands = initialBaseHands;
+        baseDiscards = initialBaseDiscards;
+    }
+
+    /**
+     * Reset deck to a full basic deck. Call when starting a new ante.
+     */
+    public void resetDeck() {
+        deckCards.clear();
+        deckCards.addAll(Utils.basicDeck());
+    }
+
+    /**
+     * Returns the shared RNG for reproducible game simulation.
+     * @return Random instance
+     */
+    public Random getRng() {
+        return rng;
     }
 
     /**
@@ -91,51 +144,53 @@ public class GameState {
      * @return boolean. True if successful, false otherwise (no open slots).
      */
     public boolean addJoker(JokerCard joker) {
-        // TODO ensure negative jokers can be added.
-        if (jokerSpace-1 < jokers.size()) {
-            jokers.add(joker);
-            return true;
-        }
-        return false;
+        if (joker == null) return false;
+        if (jokers.size() >= jokerSpace) return false;
+        jokers.add(joker);
+        return true;
     }
 
     /**
-     * Method for removing Joker at set index.
-     * @param ind Index of joker to be removed
-     * @return JokerCard
+     * Remove joker at index.
+     * @param ind index of joker to remove
+     * @return the removed joker, or null if index out of range
      */
     public JokerCard removeJoker(int ind) {
-        // TODO error handling for index out of range
+        if (ind < 0 || ind >= jokers.size()) return null;
         return jokers.remove(ind);
     }
 
     /**
-     * Method for removing specific joker object.
-     * @param joker JokerCard object to be removed.
+     * Remove the given joker from the list.
+     * @param joker joker to remove
+     * @return true if the joker was found and removed
      */
-    public void removeJoker(JokerCard joker) {
-        // TODO error handling for object not found.
-        jokers.remove(joker); // keep an eye on using exact same object.
+    public boolean removeJoker(JokerCard joker) {
+        if (joker == null) return false;
+        return jokers.remove(joker);
     }
 
     /**
-     * Method for moving joker within LinkedList object.
-     * @param oInd Index of joker to be moved.
-     * @param delta Delta of where it will be moved to (can be negative).
+     * Move joker at oInd by delta positions.
+     * @param oInd current index
+     * @param delta offset (can be negative)
+     * @return true if move was valid
      */
-    public void moveJoker(int oInd, int delta) {
-        // TODO add error handling for index out of range
-        JokerCard joker = jokers.get(oInd);
-        removeJoker(joker);
-        jokers.add(oInd+delta, joker); // may cause problems with the removal of joker first, keep an eye on this
+    public boolean moveJoker(int oInd, int delta) {
+        if (oInd < 0 || oInd >= jokers.size()) return false;
+        int newInd = oInd + delta;
+        if (newInd < 0 || newInd >= jokers.size()) return false;
+        JokerCard joker = jokers.remove(oInd);
+        jokers.add(newInd, joker);
+        return true;
     }
 
     /**
-     * Method for getting the head of the jokers LinkedList.
-     * @return JokerCard, head of the object.
+     * Get the first joker in the list.
+     * @return the first joker, or null if list is empty
      */
     public JokerCard getJokerHead() {
-        return jokers.getFirst();
+        return jokers.isEmpty() ? null : jokers.getFirst();
     }
 
     /**
@@ -232,30 +287,29 @@ public class GameState {
      * @return boolean. True if successful, false otherwise.
      */
     public boolean addConsumable(ConsumableCard consumable) {
-        // TODO make sure Perkeo works correctly
-        if (consumableSpace-1 < consumables.size()) {
-            consumables.add(consumable);
-            return true;
-        }
-        return false;
+        if (consumable == null) return false;
+        if (consumables.size() >= consumableSpace) return false;
+        consumables.add(consumable);
+        return true;
     }
 
     /**
-     * Method for removing consumable from consumable list.
-     * @param consumable ConsumableCard to be removed.
+     * Remove the given consumable from the list.
+     * @return true if the consumable was found and removed
      */
-    public void removeConsumable(ConsumableCard consumable) {
-        // TODO add error handling for object not found.
-        consumables.remove(consumable);
+    public boolean removeConsumable(ConsumableCard consumable) {
+        if (consumable == null) return false;
+        return consumables.remove(consumable);
     }
 
     /**
-     * Method for removing consumable from consumable list.
+     * Remove consumable at index.
      * @param ind index of consumable
+     * @return the removed consumable, or null if index out of range
      */
-    public void removeConsumable(int ind) {
-        // TODO add error handling for index of range
-        consumables.remove(ind);
+    public ConsumableCard removeConsumable(int ind) {
+        if (ind < 0 || ind >= consumables.size()) return null;
+        return consumables.remove(ind);
     }
 
     /**

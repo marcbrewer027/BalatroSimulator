@@ -66,8 +66,16 @@ public class Card
         return edition;
     }
 
-    public void delete() // TODO implement delete (maybe rename to destroy?)
-    {}
+    /**
+     * Destroy this card (remove from game). Caller is responsible for removing the card from any collections (deck, hand, etc.).
+     */
+    public void destroy() {}
+
+    /** @deprecated Use {@link #destroy()} */
+    @Deprecated
+    public void delete() {
+        destroy();
+    }
 
 
     public String toString()

@@ -1,69 +1,122 @@
 package States;
 
+import Misc.Tag;
+
 /**
- * Class representing antes.
+ * Class representing antes. Each ante has three stages: small blind (0), big blind (1), boss blind (2).
  */
 public class Ante {
-
-    // TODO add a way of 'closing' or 'deleting' antes when they're finished.
 
     private final double base;
     private int stage;
     private final GameState state;
-    private final int bossCode; // may change this to enum or some other secret third thing
+    private final BossBlind bossBlind;
+    private final Tag smallBlindTag;
+    private final Tag bigBlindTag;
 
     /**
-     * Constructor for States.Ante object.
-     * @param aBase Base chip value
-     * @param aState Game state for the ante to keep track of
+     * Constructor with default tags and no boss modifier.
      */
     public Ante(int aBase, GameState aState) {
-        base = aBase;
-        stage = 0;
-        state = aState;
-        bossCode = -1; //TODO figure out how this works
+        this(aBase, aState, BossBlind.NONE, Tag.SKIP_SMALL, Tag.SKIP_BIG);
     }
 
     /**
-     * Method for moving to the next stage of the ante.
-     * @return boolean. True if successful. If false, new ante must be created.
+     * Constructor for States.Ante object.
+     * @param aBase Base chip value for small blind
+     * @param aState Game state
+     * @param boss Boss blind for stage 2 (affects score and display)
+     * @param smallTag Tag for small blind (e.g. skip cost)
+     * @param bigTag Tag for big blind
+     */
+    public Ante(int aBase, GameState aState, BossBlind boss, Tag smallTag, Tag bigTag) {
+        base = aBase;
+        stage = 0;
+        state = aState;
+        bossBlind = boss != null ? boss : BossBlind.NONE;
+        smallBlindTag = smallTag != null ? smallTag : Tag.NONE;
+        bigBlindTag = bigTag != null ? bigTag : Tag.NONE;
+    }
+
+    /**
+     * Move to the next stage (small -> big -> boss). Call after beating the current blind.
+     * @return true if there is a next stage, false if ante is complete (boss beaten)
      */
     public boolean nextStage() {
         if (stage < 2) {
             stage += 1;
             return true;
         }
-        return false; // if got this, new ante required
+        return false;
     }
 
-    /**
-     * Method for finding score to beat for blind.
-     * @return double. Based on base score.
-     */
+    /** Whether this ante is complete (boss blind stage reached). */
+    public boolean isComplete() {
+        return stage >= 2;
+    }
+
+    /** Current stage (0 = small, 1 = big, 2 = boss). */
+    public int getStage() {
+        return stage;
+    }
+
+    /** Score to beat for the current stage. Boss blind multiplier applied at stage 2. */
     public double getScore() {
         return switch (stage) {
             case 0 -> base;
             case 1 -> base * 1.5;
-            case 2 -> base * 2; //TODO figure out The Wall, The Needle, Violet Vessel, etc
+            case 2 -> base * 2 * bossBlind.getScoreMultiplier();
             default -> -1;
         };
     }
 
+    public BossBlind getBossBlind() {
+        return bossBlind;
+    }
+
+    /** Skip cost in dollars for the current stage (0 = small, 1 = big). */
+    public int getSkipCostDollars(int stage) {
+        return stage == 0 ? smallBlindTag.getSkipCostDollars() : bigBlindTag.getSkipCostDollars();
+    }
+
     /**
-     * Method for starting the next blind in the stage.
-     * @return Blind. Based on stage.
+     * Start the blind for the current stage. Resets hands/discards and draws a new hand.
      */
     public Blind startBlind() {
-        return new Blind(state, getScore()); // TODO increment stage
-    };
+        state.resetHandsAndDiscards();
+        return new Blind(state, getScore());
+    }
 
-    public String toString(){
+    /** Call when ante is finished (boss beaten). Advances game to next ante, resets round and deck. */
+    public void closeAndAdvance() {
+        state.setAnte(state.getAnte() + 1);
+        state.setRound(1);
+        state.resetDeck();
+    }
+
+    public String toString() {
+        String s1 = formatScore(base);
+        String s2 = formatScore(base * 1.5);
+        String s3 = formatScore(base * 2 * bossBlind.getScoreMultiplier());
+        int smallCost = smallBlindTag.getSkipCostDollars();
+        int bigCost = bigBlindTag.getSkipCostDollars();
         return String.format("""
-                You are currently at stage %s. \n
-                Stage 1 - Small Blind - Score: %s - can be skipped for %s. \r
-                Stage 2 - Big Blind - Score %s - can be skipped for %s. \r
-                Stage 3 - Boss Blind - Score %s - %s - %s.
-                """, stage+1, ((int) Math.floor(base)),"[tag placeholder]",((int) Math.floor(base * 1.5)),"[tag placeholder]",((int) Math.floor(base * 2)),"[boss name]","[boss description]"); // NOTE: when using Math.floor, we cannot use it for scientific notation as it is a floating point. TODO figure out scientific notation
+                You are currently at stage %s.
+                Stage 1 - Small Blind - Score: %s - can be skipped for $%s.
+                Stage 2 - Big Blind - Score: %s - can be skipped for $%s.
+                Stage 3 - Boss Blind - Score: %s - %s - %s.
+                """,
+                stage + 1, s1, smallCost, s2, bigCost, s3,
+                bossBlind.getName(), bossBlind.getDescription());
+    }
+
+    /** Format score with scientific notation for large values. */
+    private static String formatScore(double score) {
+        long fl = (long) Math.floor(score);
+        if (fl >= 1_000_000) {
+            return String.format("%.2e", score);
+        }
+        return String.valueOf(fl);
     }
 
 }

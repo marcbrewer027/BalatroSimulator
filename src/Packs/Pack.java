@@ -1,56 +1,51 @@
 package Packs;
 
-public class Pack
-{
+import Cards.Card;
 
-    //TODO add logic for picking cards (may be useful for this class to be abstract)
+import java.util.List;
+import java.util.Random;
 
-    //------------------------
-    // ENUMERATIONS
-    //------------------------
+/**
+ * Base for card packs. Subclasses implement pick() to draw cards from the pack.
+ */
+public abstract class Pack {
 
     public enum Size { Normal, Jumbo, Mega }
 
-    //------------------------
-    // MEMBER VARIABLES
-    //------------------------
-
-    //Packs.Pack Attributes
     private Size size;
 
-    //------------------------
-    // CONSTRUCTOR
-    //------------------------
-
-    public Pack(Size aSize)
-    {
+    public Pack(Size aSize) {
         size = aSize;
     }
 
-    //------------------------
-    // INTERFACE
-    //------------------------
-
-    public boolean setSize(Size aSize)
-    {
-        boolean wasSet = false;
+    public boolean setSize(Size aSize) {
         size = aSize;
-        wasSet = true;
-        return wasSet;
+        return true;
     }
 
-    public Size getSize()
-    {
+    public Size getSize() {
         return size;
     }
 
-    public void delete()
-    {}
+    /** Number of cards to pick based on size (override in subclasses if different). */
+    protected int getPickCount() {
+        return switch (size) {
+            case Normal -> 1;
+            case Jumbo -> 2;
+            case Mega -> 3;
+        };
+    }
 
+    /**
+     * Open the pack and pick cards using the given RNG.
+     * @param rng random number generator
+     * @return list of cards from the pack (caller adds to game state)
+     */
+    public abstract List<Card> pick(Random rng);
 
-    public String toString()
-    {
-        return super.toString() + "["+ "]" + System.getProperties().getProperty("line.separator") +
-                "  " + "size" + "=" + (getSize() != null ? !getSize().equals(this)  ? getSize().toString().replaceAll("  ","    ") : "this" : "null");
+    public void delete() {}
+
+    public String toString() {
+        return getClass().getSimpleName() + "[size=" + size + "]";
     }
 }
